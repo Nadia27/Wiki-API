@@ -1,1 +1,3 @@
-# Wiki-API 
+# Wiki-API - RESTful API
+
+ 
