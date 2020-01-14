@@ -20,10 +20,43 @@ const articleSchema = {
 // Model
 const Article = mongoose.model('Article', articleSchema);
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+// Get all articles from wikiDB
+app.get('/articles', (req, res) => {
+  Article.find({}, (err, results) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(results);
+    }
+  });
 });
 
+// Post new Article in wikiDB
+app.post('/articles', (req, res) => {
+  console.log(req.body.title);
+  console.log(req.body.content);
+  const newArticle = new Article ({
+    title : req.body.title,
+    content: req.body.content
+  });
+  newArticle.save((err) => {
+    if (!err) {
+      res.send('Successfully added a new article.');
+    } else {
+      res.send(err);
+    }
+  });
+});
+
+app.delete('/articles', (req, res) => {
+  Article.deleteMany((err) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send('Successfully deleted all articles.');
+    }
+  })
+})
 
 app.listen(3000, (req, res) => {
   console.log('Server connected on port 3000');
