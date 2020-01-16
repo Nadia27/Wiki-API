@@ -20,43 +20,61 @@ const articleSchema = {
 // Model
 const Article = mongoose.model('Article', articleSchema);
 
-// Get all articles from wikiDB
-app.get('/articles', (req, res) => {
-  Article.find({}, (err, results) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(results);
-    }
-  });
-});
 
-// Post new Article in wikiDB
-app.post('/articles', (req, res) => {
-  console.log(req.body.title);
-  console.log(req.body.content);
-  const newArticle = new Article ({
-    title : req.body.title,
-    content: req.body.content
-  });
-  newArticle.save((err) => {
-    if (!err) {
-      res.send('Successfully added a new article.');
-    } else {
-      res.send(err);
-    }
-  });
-});
-
-app.delete('/articles', (req, res) => {
-  Article.deleteMany((err) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send('Successfully deleted all articles.');
-    }
+app.route('/articles')
+  // Get all articles from wikiDB
+  .get((req, res) => {
+    Article.find({}, (err, results) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(results);
+      }
+    });
   })
-})
+  // Post new Article in wikiDB
+  .post((req, res) => {
+    const newArticle = new Article ({
+      title : req.body.title,
+      content: req.body.content
+    });
+    newArticle.save((err) => {
+      if (!err) {
+        res.send('Successfully added a new article.');
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  // Delete all articles in wikiDB
+  .delete((req, res) => {
+    Article.deleteMany((err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send('Successfully deleted all articles.');
+      }
+    });
+  });
+
+app.route('/articles/:articleTitle')
+  .get((req, res) => {
+    Article.findOne({title: req.params.articleTitle}, (err, foundArticle) => {
+        if (foundArticle) {
+          res.send(foundArticle);
+        } else {
+          res.send('No articles matching that title was found.');
+        }
+    });
+  })
+  .put((req, res) => {
+    Article.updateOne({title: req.params.articleTitle}, {title: req.body.title, content: req.body.content}, {overwrite: true},
+    (err) => {
+      if (!err) {
+        res.send('Successfully updated article');
+      }
+    });
+  })
 
 app.listen(3000, (req, res) => {
   console.log('Server connected on port 3000');
