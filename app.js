@@ -33,6 +33,7 @@ app.route('/articles')
     });
   })
   // Post new Article in wikiDB
+  // POST should only go to a collection of resources rather than a specific resource
   .post((req, res) => {
     const newArticle = new Article ({
       title : req.body.title,
@@ -67,6 +68,7 @@ app.route('/articles/:articleTitle')
         }
     });
   })
+  // PUT - Update by sending an entirely new entry to replace the current one
   .put((req, res) => {
     Article.updateOne({title: req.params.articleTitle}, {title: req.body.title, content: req.body.content}, {overwrite: true},
     (err) => {
@@ -75,6 +77,25 @@ app.route('/articles/:articleTitle')
       }
     });
   })
+  // PATCH - Only update the piece of data that needs to be updated
+  .patch((req, res) => {
+    Article.updateOne({title: req.params.articleTitle}, {$set: req.body}, (err) => {
+      if (!err) {
+        res.send('Successfully updated article');
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  .delete((req, res) => {
+    Article.deleteOne({title: req.params.articleTitle}, (err) => {
+      if (!err) {
+        res.send('Successfully deleted article');
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
 app.listen(3000, (req, res) => {
   console.log('Server connected on port 3000');
