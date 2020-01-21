@@ -36,7 +36,7 @@ REST - REpresentational State Transfer
 
   **PUT - PATCH - UPDATE**  <br/>
 
-  Difference between PUT and patch  <br/>
+  Difference between PUT and PATCH  <br/>
 
   **PUT** - updating by sending an entirely new entry to replace the previous one.
 
@@ -47,7 +47,7 @@ REST - REpresentational State Transfer
 Express routing
 
   using chainable route handlers for route paths using ```app.route()```
-
+  chainable routes reduces code redundancy
   ```
     app.route('/articles')
     // Get all articles from wikiDB
