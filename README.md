@@ -48,7 +48,8 @@ Express routing
 
   using chainable route handlers for route paths using ```app.route()```
 
-  ```app.route('/articles')
+  ```
+    app.route('/articles')
     // Get all articles from wikiDB
     .get((req, res) => {
       Article.find({}, (err, results) => {
@@ -73,4 +74,5 @@ Express routing
           res.send(err);
         }
       });
-    })```
+    })
+    ```
