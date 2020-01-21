@@ -32,13 +32,14 @@ REST - REpresentational State Transfer
   **GET - READ**
 
   **POST - CREATE**  
-    * POST should go to a collection of resources rather than a specific resource
+    * POST route should go to a collection of resources rather than a specific resource
 
-  **PUT - PATCH - UPDATE**
-    * Difference between PUT and patch
+  **PUT - PATCH - UPDATE**  <br/>
 
-    **PUT** - updating by sending an entirely new entry to replace the previous one.
+  Difference between PUT and patch  <br/>
 
-    **PATCH** - only sends the piece of data that needs to updated
+  **PUT** - updating by sending an entirely new entry to replace the previous one.
+
+  **PATCH** - only sends the piece of data that needs to updated
 
   **DELETE - DELETE**
